@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "M/MESeTpB3i6U5I1KmuPe+5BnGYnn1irsCbg+rOz05KObXNFP/qZr43rtf749WBzCTOAzRO7mzOr0GmUe8yXzw==",
+  "success": true,
+  "projectFilePath": "D:\\programming\\c#\\chip-8\\chip-8.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Sterence\\.nuget\\packages\\sayers.sdl2.core\\1.0.11\\sayers.sdl2.core.1.0.11.nupkg.sha512"
+  ],
+  "logs": []
+}
