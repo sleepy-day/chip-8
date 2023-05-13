@@ -19,7 +19,7 @@ c8.LoadROM();
 
 Setup();
 
-int cycles = 1000 / 60;
+int cycles = 100000 / 60;
 int cycleDelay =  1000 / cycles;
 long lastCycleTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 

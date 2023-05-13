@@ -297,53 +297,59 @@ class Chip8 {
         Console.WriteLine(val);
 
         if (val > 0xFF) {
+            V[reg1] = (byte)(val & 0xFF);
             V[0xF] = 1;
-            val = 0xFF;
         } else {
+            V[reg1] = (byte)val;
             V[0xF] = 0;
         }
-
-        V[reg1] = (byte)val;
     }
 
     private void SubV() {
+        byte result = (byte)(V[reg1] - V[reg2]);
+        
         if (V[reg1] < V[reg2]) {
-            V[0xF] = 1;
-        } else {
+            V[reg1] = result;
             V[0xF] = 0;
+        } else {
+            V[reg1] = result;
+            V[0xF] = 1;
         }
-
-        V[reg1] -= V[reg2];
     }
 
     private void ShrV() {
+        V[reg1] = V[reg2];
+        int carry = 0;
         if ((V[reg1] & 0x1) == 1) {
-            V[0xF] = 1;
-        } else {
-            V[0xF] = 0;
+            carry = 1;
         }
 
-        V[reg1] /= 2;
+        V[reg1] = (byte)(V[reg1] >> 1);
+        V[0xF] = (byte)carry;
     }
 
     private void SubNV() {
-        if (V[reg2] > V[reg1]) {
-            V[0xF] = 1;
-        } else {
-            V[0xF] = 0;
-        }
+        byte result = (byte)(V[reg2] - V[reg1]);
 
-        V[reg1] = (byte)(V[reg2] - V[reg1]);
+        if (V[reg2] < V[reg1]) {
+            V[reg1] = result;
+            V[0xF] = 0;
+        } else {
+            V[reg1] = result;
+            V[0xF] = 1;
+        }
     }
 
     private void ShlV() {
-        if ((V[reg1] & 0x80 >> 7) == 1) {
+        V[reg1] = V[reg2];
+
+        if (((V[reg1] & 0x80) >> 7) == 1) {
+            V[reg1] = (byte)(V[reg1] << 1);
             V[0xF] = 1;
         } else {
+            V[reg1] = (byte)(V[reg1] << 1);
             V[0xF] = 0;
         }
-
-        V[reg1] *= 2;
     }
 
     private void SNE() {
