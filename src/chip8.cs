@@ -64,7 +64,7 @@ class Chip8 {
         Console.WriteLine("Enter name of ROM: ");
         //string ROM = Console.ReadLine();
 
-        byte[] temp = File.ReadAllBytes("./4-flags.ch8");
+        byte[] temp = File.ReadAllBytes("./6-keypad.ch8");
 
         for (int i = 0; i < temp.Length; i++) {
             RAM[0x200 + i] = temp[i];

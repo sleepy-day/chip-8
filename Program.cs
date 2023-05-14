@@ -19,7 +19,7 @@ c8.LoadROM();
 
 Setup();
 
-int cycles = 100000 / 60;
+int cycles = 1000 / 60;
 int cycleDelay =  1000 / cycles;
 long lastCycleTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
@@ -27,7 +27,6 @@ Console.WriteLine(cycles);
 
 while (running) {
     PollEvents();
-    HandleKeyInput();
 
     long now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
     long dt = now - lastCycleTime;
@@ -84,9 +83,31 @@ void PollEvents() {
     while (SDL_PollEvent(out SDL_Event e) == 1) {
         switch (e.type) {
             case SDL_EventType.SDL_QUIT:
-            running = false;
-            break;
+                running = false;
+                break;
         }
+
+        SDL_PumpEvents();
+        input = SDL_GetKeyboardState(out arraySize);
+        byte[] keyState = new byte[arraySize];
+        Marshal.Copy(input, keyState, 0, arraySize);
+
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_X] == 1) { c8.key[0x0] = 1; } else { c8.key[0x0] = 0; }
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_1] == 1) { c8.key[0x1] = 1; } else { c8.key[0x1] = 0; }
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_2] == 1) { c8.key[0x2] = 1; } else { c8.key[0x2] = 0; }
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_3] == 1) { c8.key[0x3] = 1; } else { c8.key[0x3] = 0; }
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_Q] == 1) { c8.key[0x4] = 1; } else { c8.key[0x4] = 0; }
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_W] == 1) { c8.key[0x5] = 1; } else { c8.key[0x5] = 0; }
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_E] == 1) { c8.key[0x6] = 1; } else { c8.key[0x6] = 0; }
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_A] == 1) { c8.key[0x7] = 1; } else { c8.key[0x7] = 0; }
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_S] == 1) { c8.key[0x8] = 1; } else { c8.key[0x8] = 0; }
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_D] == 1) { c8.key[0x9] = 1; } else { c8.key[0x9] = 0; }
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_Z] == 1) { c8.key[0xA] = 1; } else { c8.key[0xA] = 0; }
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_C] == 1) { c8.key[0xB] = 1; } else { c8.key[0xB] = 0; }
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_4] == 1) { c8.key[0xC] = 1; } else { c8.key[0xC] = 0; }
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_R] == 1) { c8.key[0xD] = 1; } else { c8.key[0xD] = 0; }
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_F] == 1) { c8.key[0xE] = 1; } else { c8.key[0xE] = 0; }
+        if (keyState[(int)SDL_Scancode.SDL_SCANCODE_V] == 1) { c8.key[0xF] = 1; } else { c8.key[0xF] = 0; }
     }
 }
 
@@ -119,24 +140,3 @@ void CleanUp() {
     SDL_Quit();
 }
 
-void HandleKeyInput() {
-    byte[] keyState = new byte[arraySize];
-    Marshal.Copy(input, keyState, 0, arraySize);
-
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_X] == 1) { c8.key[0x0] = 1; } else { c8.key[0x0] = 0; }
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_1] == 1) { c8.key[0x1] = 1; } else { c8.key[0x1] = 0; }
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_2] == 1) { c8.key[0x2] = 1; } else { c8.key[0x2] = 0; }
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_3] == 1) { c8.key[0x3] = 1; } else { c8.key[0x3] = 0; }
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_Q] == 1) { c8.key[0x4] = 1; } else { c8.key[0x4] = 0; }
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_W] == 1) { c8.key[0x5] = 1; } else { c8.key[0x5] = 0; }
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_E] == 1) { c8.key[0x6] = 1; } else { c8.key[0x6] = 0; }
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_A] == 1) { c8.key[0x7] = 1; } else { c8.key[0x7] = 0; }
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_S] == 1) { c8.key[0x8] = 1; } else { c8.key[0x8] = 0; }
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_D] == 1) { c8.key[0x9] = 1; } else { c8.key[0x9] = 0; }
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_Z] == 1) { c8.key[0xA] = 1; } else { c8.key[0xA] = 0; }
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_C] == 1) { c8.key[0xB] = 1; } else { c8.key[0xB] = 0; }
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_4] == 1) { c8.key[0xC] = 1; } else { c8.key[0xC] = 0; }
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_R] == 1) { c8.key[0xD] = 1; } else { c8.key[0xD] = 0; }
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_F] == 1) { c8.key[0xE] = 1; } else { c8.key[0xE] = 0; }
-    if (keyState[(int)SDL_Scancode.SDL_SCANCODE_V] == 1) { c8.key[0xF] = 1; } else { c8.key[0xF] = 0; }
-}
